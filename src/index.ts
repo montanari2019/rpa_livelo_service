@@ -1,20 +1,19 @@
 import express, { Request, Response } from 'express';
+import 'dotenv/config';
+import swaggerUi from 'swagger-ui-express';
+import { specs } from './config/swagger';
 
 const app = express();
 const PORT = 3000;
+import liveloRoutes from './routes/livelo';
 
 // Middleware para JSON
 app.use(express.json());
 
-// Rota de teste
-app.get('/', (req: Request, res: Response) => {
-    res.send('API funcionando com TypeScript!');
-});
+// Configuração do Swagger
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Importando rotas
-import userRoutes from './routes/userRoutes';
-app.use('/users', userRoutes);
+app.use('/livelo', liveloRoutes);
 
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
+app.listen(PORT);
