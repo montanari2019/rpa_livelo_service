@@ -8,7 +8,7 @@ export async function initPuppeteer() {
 
     const browser = await puppeteer.launch({
         headless: true,
-        executablePath: puppeteer.executablePath(),
+        executablePath: process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath(),
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
