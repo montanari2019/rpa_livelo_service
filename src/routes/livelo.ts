@@ -2,12 +2,11 @@ import { Router } from 'express';
 import { LiveloCredentialsType } from '../services/@type';
 import { runLiveloRpa } from '../services/rpaLivelo';
 
-
 const router = Router();
 
 /**
  * @swagger
- * /users:
+ * /livelo:
  *   get:
  *     summary: Rota de teste
  *     description: Retorna uma mensagem de confirmação de que a API está funcionando
@@ -25,7 +24,7 @@ router.get('/', (req, res) => {
 
 /**
  * @swagger
- * /users/execute-rpa-livelo:
+ * /livelo/execute-rpa-livelo:
  *   post:
  *     summary: Executa RPA do Livelo
  *     description: Executa o processo automatizado para extrair dados do Livelo
@@ -83,7 +82,7 @@ router.post('/execute-rpa-livelo', async (req, res) => {
         console.error('Erro ao executar RPA Livelo:', error);
         res.status(500).json({
             success: false,
-            error: 'Erro interno do servidor ao executar RPA'
+            error: error
         });
     }
 });
