@@ -11,8 +11,22 @@ const options = {
         servers: [
             {
                 url: 'http://localhost:3000',
-                description: 'Servidor de desenvolvimento',
+                description: 'Servidor de desenvolvimento local',
             },
+            {
+                url: 'https://your-app-name.onrender.com',
+                description: 'Servidor de produção (Render)',
+            },
+            {
+                url: '{url}',
+                description: 'Servidor customizável (URL completa)',
+                variables: {
+                    url: {
+                        default: 'https://localhost:3000',
+                        description: 'URL completa do servidor (ex: https://meuapp.onrender.com)'
+                    }
+                }
+            }
         ],
         components: {
             schemas: {
