@@ -1,0 +1,16 @@
+services:
+  puppeteer-in-docker:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${PORT:-3000}:${PORT:-3000}
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: "production"
+      PUPPETEER_EXECUTABLE_PATH: "/usr/bin/chromium"
+      PORT: ${PORT:-3000}
+    restart: unless-stopped
+    # Add container_name for easier reference
+    container_name: rpa_livelo_service
