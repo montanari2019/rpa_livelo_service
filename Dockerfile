@@ -1,6 +1,10 @@
 FROM node:16-bullseye-slim
 
-EXPOSE 3000
+# Set default port (can be overridden at runtime)
+ARG PORT=3000
+ENV PORT=$PORT
+# Expose the port
+EXPOSE $PORT
 
 # Fix the time validation issue by removing apt security checks and installing Chrome directly
 RUN apt-get update -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false && \
@@ -27,11 +31,17 @@ RUN apt-get update -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=fa
 RUN apt-get install -y --no-install-recommends chromium && \
     rm -rf /var/lib/apt/lists/*
 
-# Set environment variables for Puppeteer with Chromium paths
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+# Set all environment variables for application
+ENV NODE_ENV=production \
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium \
-    NODE_ENV=production
+    CHROMIUM_PATH=/usr/bin/chromium \
+    CRYPTO_ALGORITHM=aes-256-gcm \
+    CRYPTO_IV_LENGTH=16 \
+    CRYPTO_TAG_LENGTH=16 \
+    CRYPTO_SALT_LENGTH=32
 
+# Create and set working directory
 WORKDIR /app
 
 # Copy package files first to leverage Docker cache
@@ -50,5 +60,5 @@ RUN npm run build
 CMD ["node", "dist/index.js"]
 
 # Healthcheck to monitor the application
-HEALTHCHECK --interval=30s --retries=3 \
-    CMD wget -q --spider http://localhost:3000/ || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
+    CMD wget -q --spider http://localhost:$PORT/ || exit 1
