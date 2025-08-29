@@ -94,30 +94,6 @@ npm run build
 npm start
 ```
 
-### 🐳 Docker
-
-**Build com Docker:**
-
-```bash
-docker build -t rpa_livelo_service .
-```
-
-**Executando com Docker:**
-
-```bash
-docker run -d --name rpa_livelo_service -p 3000:3000 rpa_livelo_service
-```
-
-**Com variáveis de ambiente personalizadas:**
-
-```bash
-docker run -d --name rpa_livelo_service \
-  -p 3000:3000 \
-  -e PORT=3000 \
-  -e CRYPTO_KEY=sua-chave-aqui \
-  rpa_livelo_service
-```
-
 ## 📡 API Endpoints
 
 ### 🔍 Documentação Swagger
