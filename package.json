@@ -16,6 +16,7 @@
     "dotenv": "17.2.1",
     "express": "5.1.0",
     "puppeteer": "24.17.1",
+    "puppeteer-real-browser": "^1.4.3",
     "swagger-jsdoc": "6.2.8",
     "swagger-ui-express": "5.0.1",
     "ts-node": "10.9.2",
