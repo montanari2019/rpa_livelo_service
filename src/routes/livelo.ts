@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { LiveloCredentialsType } from '../services/@type';
 import { runLiveloRpa } from '../services/rpaLivelo';
+import { runLiveloRpaWithRealBrowser } from '../helpers/puppter-real-browser';
 
 const router = Router();
 
@@ -56,11 +57,11 @@ router.get('/', (req, res) => {
  */
 router.post('/execute-rpa-livelo', async (req, res) => {
     try {
-        const { userName, passwordCrypto, startOrder } = req.body;
+        const { userName, passwordCrypto, startOrder, userId } = req.body;
 
-        if (!userName || !passwordCrypto || startOrder === undefined) {
+        if (!userName || !passwordCrypto || startOrder === undefined || userId === undefined) {
             return res.status(400).json({
-                error: 'Parâmetros obrigatórios: userName, passwordCrypto, startOrder'
+                error: 'Parâmetros obrigatórios: userName, passwordCrypto, startOrder, userId'
             });
         }
 
@@ -70,7 +71,8 @@ router.post('/execute-rpa-livelo', async (req, res) => {
         };
 
         // Executar o RPA do Livelo
-        const result = await runLiveloRpa(credentials, startOrder);
+        // const result = await runLiveloRpa(credentials, startOrder);
+        const result = await runLiveloRpaWithRealBrowser(credentials, startOrder, userId);
 
         // Retornar o resultado
         res.json({
